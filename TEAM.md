@@ -12,7 +12,7 @@
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Bùi Quang Hiếu | 2A202603639 | 26ai.hieubq@vinuni.edu.vn | https://github.com/hieuwwww | Workflow + integration |
-|   2 |        |      |       |        | Single |
+|   2 | Trần Tuấn Đăng | 2A202603618 | 26ai.dangtt@vinuni.edu.vn | https://github.com/TunDangg | Single |
 |   3 |        |      |       |        | Orchestrator + handoff |
 |   4 |        |      |       |        | Ledger + evaluation |
 
@@ -39,7 +39,7 @@ Không sửa `src/lab8/durability.py`, `src/lab8/policy.py` hay các file thư�
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
 | Bùi Quang Hiếu | Workflow + integration | `6b1faff` | `src/tests/test_workflow_integration.py` |
-| | Single | | |
+| Trần Tuấn Đăng | Single | `98fa598` | `src/tests/test_single_shape.py` |
 | | Orchestrator + handoff | | |
 | | Ledger + evaluation | | |
 
@@ -54,6 +54,25 @@ report/team/MSSV_HoTen.md
 Ví dụ: `report/team/20241234_NguyenVanAn.md`.
 
 Sao chép mục dưới đây cho từng thành viên.
+
+## 2A202603618_TranTuanDang
+
+### Phần việc phụ trách
+
+- Triển khai Shape B (`src/lab8/shapes/single.py` — Single ReAct agent).
+
+### Đóng góp cụ thể
+
+- Triển khai `src/lab8/shapes/single.py`: vòng lặp ReAct tối đa 8 bước (`max_steps=8`) qua `lab8.runtime.run_react` với quyền `worker=True`, chỉ dùng tool đọc (`lookup_order`, `compute_compensation`).
+- Đảm bảo ranh giới an toàn: bỏ qua số ngày trễ ghi trong ticket (chống prompt injection và gian lận ngày trễ), luôn dùng thông tin từ database order row (`delay_days`).
+- Tính quote và gọi `durability.issue_refund` với quote đầy đủ để host tự quản lý trần đơn và khấu trừ lần hoàn trước.
+- Durability & Crash Safety: truyền tham số `crash_at` vào host và không bắt ngoại lệ `InjectedCrash` (cho phép hệ thống kiểm thử crash và khôi phục an toàn).
+- Thêm bộ test `src/tests/test_single_shape.py` xác minh 14 case bẫy public, khắc phục điểm yếu của Swarm ở seed 55, và kiểm tra giới hạn bước/budget.
+- Commit kỹ thuật: `98fa598` (`feat(shape-b): implement single ReAct agent and unit tests`).
+
+### Bằng chứng
+
+- Test: `python -m pytest -q tests/test_single_shape.py` (14/14 passed) và `python -m pytest -q -m student -o addopts= -k "single and not workflow and not orchestrator and not swarm"` (62/62 passed).
 
 ## MSSV_HoTen
 
