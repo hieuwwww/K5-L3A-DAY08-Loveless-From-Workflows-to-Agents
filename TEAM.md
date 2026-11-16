@@ -12,7 +12,7 @@
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Bùi Quang Hiếu | 2A202603639 | 26ai.hieubq@vinuni.edu.vn | https://github.com/hieuwwww | Workflow + integration |
-|   2 | Trần Tuấn Đăng | 2A202603618 | 26ai.dangtt@vinuni.edu.vn |        | Single |
+|   2 | Trần Tuấn Đăng | 2A202603618 | 26ai.dangtt@vinuni.edu.vn | https://github.com/TunDangg | Single |
 |   3 |        |      |       |        | Orchestrator + handoff |
 |   4 |        |      |       |        | Ledger + evaluation |
 

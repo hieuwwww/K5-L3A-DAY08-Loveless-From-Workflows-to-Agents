@@ -5,7 +5,7 @@
 - Họ tên: Trần Tuấn Đăng
 - MSSV: 2A202603618
 - Email: 26ai.dangtt@vinuni.edu.vn
-- GitHub: https://github.com/tuandang
+- GitHub: https://github.com/TunDangg
 
 ## 2. Phần việc phụ trách
 
@@ -39,3 +39,4 @@ Single agent: Triển khai shape B (`src/lab8/shapes/single.py`), vòng lặp Re
 ## 6. Tự đánh giá
 
 Đã hoàn thành 100% mục tiêu của Shape B; vượt qua toàn bộ 62 test của bộ student matrix; code an toàn, không rò rỉ PII/secret và sẵn sàng tích hợp vào benchmark chung của nhóm.
+
