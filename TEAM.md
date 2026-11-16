@@ -11,7 +11,7 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |        |      |       |        | Workflow + integration |
+|   1 | Bùi Quang Hiếu | 2A202603639 | 26ai.hieubq@vinuni.edu.vn | https://github.com/hieuwwww | Workflow + integration |
 |   2 |        |      |       |        | Single |
 |   3 |        |      |       |        | Orchestrator + handoff |
 |   4 |        |      |       |        | Ledger + evaluation |
@@ -38,7 +38,7 @@ Không sửa `src/lab8/durability.py`, `src/lab8/policy.py` hay các file thư�
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| | Workflow + integration | | |
+| Bùi Quang Hiếu | Workflow + integration | | `src/tests/test_workflow_integration.py` |
 | | Single | | |
 | | Orchestrator + handoff | | |
 | | Ledger + evaluation | | |
