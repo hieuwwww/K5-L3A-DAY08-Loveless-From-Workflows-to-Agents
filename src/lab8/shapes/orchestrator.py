@@ -1,5 +1,9 @@
 """Shape C — orchestrator plus read-only investigators. Student work.
 
+Owner: orchestrator + handoff (TEAM.md). Implement this shape, test the
+allowlisted handoff and secret-free trace, and record the actual commit/test
+in TEAM.md.
+
 1. Build a handoff with `lab8.handoff.make_handoff`. Allowed tools are read-only.
    Never put parent_secret, raw headers, or the full claim row into facts.
 2. `lab8.runtime.run_readonly_investigators` runs those tools.

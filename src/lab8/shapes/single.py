@@ -1,5 +1,9 @@
 """Shape B — one ReAct agent. Student work.
 
+Owner: single (TEAM.md). Implement this shape and verify T01–T14, including
+retry and injected crash. Add or update a test in src/tests/ and record the
+actual commit/test in TEAM.md.
+
 Use `lab8.runtime.run_react` with max_steps=8. `decide` may pick a read tool.
 It must not call `issue_refund`. After the loop, the host validates the quote
 and is the only writer.

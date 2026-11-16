@@ -1,5 +1,9 @@
 """Shape A — deterministic workflow. Student work.
 
+Owner: workflow + integration (TEAM.md). Implement this shape, then integrate
+and run the smoke and student matrix checks once the other shapes are ready.
+Add or update a test in src/tests/ and record the actual commit/test in TEAM.md.
+
 Signature (do not change):
 
     run_claim(claim_id, *, seed, store_path, crash_at=None) -> RunResult
