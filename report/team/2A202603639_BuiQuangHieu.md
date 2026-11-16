@@ -15,7 +15,7 @@ Workflow + integration: triển khai shape A và kiểm tra tích hợp với ho
 
 - Triển khai `src/lab8/shapes/workflow.py`: đọc claim/order có scope, quote từ dữ liệu order, truyền quote đầy đủ qua cổng host, trả `RunResult` và trace trên mọi nhánh.
 - Thêm `src/tests/test_workflow_integration.py` để kiểm tra claim không tồn tại, trần hoàn tiền theo đơn và trace không lộ dữ liệu nhạy cảm.
-- Commit: điền sau khi tạo commit kỹ thuật tương ứng.
+- Commit kỹ thuật: `6b1faff` (`feat: implement workflow claim handling and integration tests`).
 
 ## 4. Bằng chứng
 

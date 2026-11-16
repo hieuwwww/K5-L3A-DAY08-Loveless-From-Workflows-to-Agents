@@ -38,7 +38,7 @@ Không sửa `src/lab8/durability.py`, `src/lab8/policy.py` hay các file thư�
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| Bùi Quang Hiếu | Workflow + integration | | `src/tests/test_workflow_integration.py` |
+| Bùi Quang Hiếu | Workflow + integration | `6b1faff` | `src/tests/test_workflow_integration.py` |
 | | Single | | |
 | | Orchestrator + handoff | | |
 | | Ledger + evaluation | | |
