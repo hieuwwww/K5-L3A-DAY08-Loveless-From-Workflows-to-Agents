@@ -94,16 +94,36 @@ Sao chép mục dưới đây cho từng thành viên.
 - Crash safety: `python -m lab8.crash_test --count 20 --out reports/crash.json` (20/20).
 - Benchmark: `src/reports/benchmark.json` (Workflow đạt pass rate 1.0, cost 27.86 VND).
 
-## MSSV_HoTen
+## 2A202603639_BuiQuangHieu
 
 ### Phần việc phụ trách
 
--
+- Workflow + integration: triển khai Shape A (`src/lab8/shapes/workflow.py`) và kiểm tra tích hợp với host và bộ test public.
 
 ### Đóng góp cụ thể
 
--
+- Triển khai `src/lab8/shapes/workflow.py`: đọc claim/order có scope, tính quote từ dữ liệu order bằng `compute_compensation`, truyền quote đầy đủ qua cổng host `durability.issue_refund`, trả `RunResult` và trace trên mọi nhánh.
+- Thêm `src/tests/test_workflow_integration.py` để kiểm tra claim không tồn tại, trần hoàn tiền theo đơn và trace không lộ dữ liệu nhạy cảm.
+- Commit kỹ thuật: `6b1faff` (`feat: implement workflow claim handling and integration tests`).
 
 ### Bằng chứng
 
--
+- Test: `python -m pytest -q tests/test_workflow_integration.py` và `python -m pytest -q -m student -o addopts= -k workflow` (62/62 passed).
+- Benchmark: `src/reports/benchmark.json` (Workflow đạt pass rate 1.000, pass^5 1.000, variance 0.000000, cost/success 27.86 VND).
+
+## 2A202603644_NguyenDucTrong
+
+### Phần việc phụ trách
+
+- Orchestrator + handoff: triển khai Shape C (`src/lab8/shapes/orchestrator.py`), handoff qua allowlist, investigator chỉ đọc và trace đã lọc dữ liệu.
+
+### Đóng góp cụ thể
+
+- Triển khai `src/lab8/shapes/orchestrator.py`: đọc claim view, dựng gói handoff an toàn bằng `make_handoff` chỉ cấp tool đọc (`lookup_order`), thực thi investigator qua `run_readonly_investigators`.
+- Tính quote từ order view bằng `compute_compensation`, truyền quote đầy đủ và `crash_at` vào `durability.issue_refund`, flush trace trước khi re-raise `InjectedCrash`.
+- Commit kỹ thuật: `998a79b` (`feat: orchestrator`).
+
+### Bằng chứng
+
+- Test: `python -m pytest -q -m student -o addopts= -k orchestrator` (62/62 passed) và `python -m pytest -q tests/test_handoff_secret.py`.
+- Benchmark: `src/reports/benchmark.json` (Orchestrator đạt pass rate 1.000, pass^5 1.000, variance 0.000000, cost/success 38.08 VND).
