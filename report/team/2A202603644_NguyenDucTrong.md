@@ -1,7 +1,5 @@
 # Báo cáo cá nhân — 2A202603644_NguyenDucTrong
 
-
-
 ## 1. Thông tin thành viên
 
 - Họ tên: NguyenDucTrong
@@ -17,7 +15,7 @@ Shape C gồm hai vai: investigator chỉ có tool đọc, và orchestrator là 
 
 ## 3. Đóng góp cụ thể
 
-**Commit chính:** `[ĐIỀN: hash commit của orchestrator.py]`
+**Commit chính:** `998a79b` (`feat: orchestrator`); báo cáo cá nhân được thêm ở `0bfd288`.
 
 **Cài đặt `run_claim` của shape C**, giữ nguyên chữ ký `run_claim(claim_id, *, seed, store_path, crash_at=None) -> RunResult`. Luồng xử lý:
 
@@ -38,26 +36,26 @@ Shape C gồm hai vai: investigator chỉ có tool đọc, và orchestrator là 
 - **Trace chỉ ghi dữ liệu đã qua allowlist:** handoff đã sanitize, claim view tối giản (`claim_id`, `has_order_id`, không có ticket), order view đã lọc field, quote, và kết quả của host. Không ghi claim row, order row hay `parent_secret`.
 - Mọi nhánh return đều đi qua `lab8.shapes.common.finish()`, nên `refund_effects`, `committed_audit_count` và `trace_path` luôn lấy từ ledger và trace ghi trong chính lần chạy đó.
 
-**Test:** không thêm test mới. Mình dùng bộ test student có sẵn của shape C (62 test) để kiểm tra.
+**Test:** dùng bộ test student có sẵn của shape C (62 test) để kiểm tra. Commit `998a79b` không thêm hoặc sửa test; mục đóng góp test cá nhân trong `TEAM.md` cần được thành viên xác nhận và bổ sung nếu yêu cầu của rubric áp dụng nghiêm ngặt.
 
 ## 4. Bằng chứng
 
-**Commit:** `feat: orchestrator`
+**Commit:** `998a79b` (`feat: orchestrator`).
 
 **Kết quả chạy test** (trong thư mục `src/`):
 
 ```
 python -m pytest -q -m student -o addopts= -k orchestrator
-→ 62 passed, 257 deselected, 3 warnings
+→ 62 passed (kiểm tra lại trên branch tích hợp `main`).
 ```
 
-Lần chạy `python -m pytest -q` trước đó cho kết quả `319 passed`. Ba warning `PytestUnknownMarkWarning` về `pytest.mark.student` xuất hiện vì lệnh dùng `-o addopts=` nên cấu hình đăng ký marker không được nạp. Đây chỉ là cảnh báo, không ảnh hưởng kết quả test.
+Trên `main`, `python -m pytest -q` cho 76 passed và `python -m pytest -q -m student -o addopts=` cho 248 passed. Các số này là kết quả tích hợp toàn nhóm, không phải riêng commit của mình.
 
-**Chưa điền (làm ở CP4 và CP5):**
+**Số liệu tích hợp đã có:**
 
-- Crash suite: `python -m lab8.crash_test --count 20 --out reports/crash.json` cho `crash_safety` = `[ĐIỀN]`
-- Benchmark của shape C (pass rate, pass^5, variance giữa các seed, cost/success): `[ĐIỀN từ reports/benchmark.json]`
-- Run id minh họa: `[ĐIỀN, ví dụ R-orchestrator-<claim_id>-s11]`
+- Crash suite: `src/reports/crash.json` ghi `crash_safety = 20/20` (suite kiểm host và swarm; crash của Shape C được kiểm trong test student T12).
+- Benchmark Shape C: `src/reports/benchmark.json` ghi 70/70 trial, pass rate 1.000, pass^5 1.000, seed variance 0 và cost/success mô phỏng 38.08 VND.
+- Run id minh họa trong benchmark: `R-orchestrator-C-001-s11`.
 
 ## 5. Công cụ AI đã dùng
 
@@ -70,7 +68,7 @@ Lần chạy `python -m pytest -q` trước đó cho kết quả `319 passed`. B
 
 - Chạy bộ test student của shape C trên máy mình và đạt 62/62 (xem mục 4).
 - Đối chiếu code với bảng trạng thái trong `docs/contracts.md` và các luật trong `docs/business_rules.md`.
-- `[ĐIỀN thêm nếu đã làm: chạy crash suite, đọc file trace trong thư mục traces/ để chắc không có ticket hay secret, chạy benchmark]`
+- Kết quả benchmark và crash suite chung của nhóm được lưu trong `src/reports/`; không quy các phép đo này thành đóng góp riêng của mình.
 
 Lưu ý: file `runtime.py` chưa được đưa cho Claude đọc, nên cách gọi `run_readonly_investigators` dựa trên cách `swarm_reference.py` đang dùng. Các test student đã xác nhận cách gọi này hoạt động.
 
@@ -80,6 +78,6 @@ Lưu ý: file `runtime.py` chưa được đưa cho Claude đọc, nên cách g�
 
 **Còn hạn chế / cần làm tiếp:**
 
-- Chưa có số liệu crash suite và benchmark để so sánh C với A, B, D trong ADR (điền ở CP4 và CP5).
+- Số liệu công khai đã có; chưa có nhãn hidden để khẳng định pass rate trên dữ liệu của giảng viên.
 - Shape C dùng một investigator và tool đọc rất tối thiểu, nên với bộ claim public nó khó cho kết quả tốt hơn workflow thuần code. Số liệu cost/success và variance sẽ cho thấy điều này, và mình sẽ đưa vào ADR cùng nhóm.
-- `[ĐIỀN thêm nhận xét cá nhân: điều bạn học được, khó khăn gặp phải]`
+- Cần tự xác nhận thông tin email: file này ghi `26ai.trongnd4@vinuni.edu.vn`, còn `TEAM.md` ghi `25ai.trongnd@vinuni.edu.vn`.

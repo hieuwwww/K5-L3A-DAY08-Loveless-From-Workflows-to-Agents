@@ -18,18 +18,22 @@ Phần này nối tiếp phần mini research ở buổi lý thuyết (slide 62�
 | Field | Hướng dẫn | Nhóm điền |
 | --- | --- | --- |
 | CÂU | R1 / R2 / R3 / R4 | R1 |
-| SOURCE | Paper/blog, năm, URL, loại bằng chứng (benchmark, production report, blog kinh nghiệm) | Google Research 2026, Towards a Science of Scaling Agent Systems, benchmark & empirical report |
-| CLAIM | Một kết luận gốc của nguồn. Không viết rộng hơn phạm vi paper | Gia tăng số lượng agent và độ phức tạp topology trên tác vụ tuần tự không làm tăng tỷ lệ thành công mà làm tăng tuyến tính chi phí và rủi ro phương sai. |
-| BOUNDARY | Model / dataset / setup giới hạn kết luận đó | Tác vụ xử lý bồi hoàn logistics LogiX-VN với dữ liệu có cấu trúc và luật nghiệp vụ xác định, 14 claims public trên 5 seeds. |
-| HYPOTHESIS | Nếu đổi shape A→B (hoặc bật/tắt một thành phần), metric X sẽ đổi theo hướng nào, khoảng bao nhiêu | Nếu chuyển từ Workflow (A) sang Orchestrator (C) hoặc Swarm (D), pass rate không tăng mà cost/success tăng lần lượt khoảng 36% và 78%. |
-| METHOD | Biến giữ cố định: model, tools, seed, corpus, giá, evaluator. Biến duy nhất được thay đổi: … | Giữ cố định: MockLLM backend, bộ công cụ đọc, 5 seeds (11,22,33,44,55), 14 claims public, pricing manifest. Biến duy nhất thay đổi: kiến trúc topology (A/B/C/D). |
+| SOURCE | Paper/blog, năm, URL, loại bằng chứng (benchmark, production report, blog kinh nghiệm) | Kim và cộng sự, *Towards a Science of Scaling Agent Systems*, bản arXiv v3 (2026), [arXiv:2512.08296v3](https://arxiv.org/abs/2512.08296v3), nghiên cứu benchmark có kiểm soát.[1] |
+| CLAIM | Một kết luận gốc của nguồn. Không viết rộng hơn phạm vi paper | Trên các benchmark/model của bài báo, lợi ích phối hợp phụ thuộc cấu trúc tác vụ: so với single-agent, tác vụ tài chính có thể tăng +80,8% còn sequential planning giảm đến −70,0%; không suy ra mọi tác vụ tuần tự đều giảm.[1] |
+| BOUNDARY | Model / dataset / setup giới hạn kết luận đó | Bài báo đo các kiến trúc agent trên benchmark và họ LLM của nghiên cứu, không đo LogiX-VN; thử nghiệm lab riêng dùng MockLLM, 14 claim public và 5 seed, không suy rộng sang production.[1] |
+| HYPOTHESIS | Nếu đổi shape A→B (hoặc bật/tắt một thành phần), metric X sẽ đổi theo hướng nào, khoảng bao nhiêu | Trên LogiX-VN public, chuyển A → C/D không tăng pass rate; cost/success C cao hơn A khoảng 36%, D cao hơn khoảng 78% (dự đoán cho lab, không phải con số của bài báo). |
+| METHOD | Biến giữ cố định: model, tools, seed, corpus, giá, evaluator. Biến duy nhất được thay đổi: … | So sánh A/B/C/D bằng cùng MockLLM, corpus 14 claim, seed 11,22,33,44,55, bảng giá và evaluator; biến so sánh là shape. Lưu ý shape cũng khác số lần gọi model/tool và cách dùng tool, nên chưa thể quy mọi chênh lệch *chỉ* cho topology. |
 | FAILURE / METRIC | Một lỗi dự kiến và cách đo nó: pass rate, pass^5, variance, cost/success, leak, bypass | Đo bằng pass rate, pass^5, seed variance, và cost/success (VND). Dự kiến Swarm fail ở seed 55 do tin lời ticket làm variance tăng. |
 
 ## Kết quả ablation
 
 - Lệnh đã chạy (copy nguyên văn): python -m lab8.benchmark --shapes workflow,single,orchestrator,swarm --cases data/public_claims.jsonl --seeds 11,22,33,44,55 --out reports/benchmark.json
-- Run id / file report: src/reports/benchmark.json
-- Kết quả so với hypothesis (đúng / sai / không kết luận được), kèm số liệu: Đúng hoàn toàn so với giả thuyết. Workflow đạt pass rate 1.000, pass^5 1.000, variance 0.000000 với chi phí thấp nhất 27.86 VND/success. Orchestrator tăng chi phí lên 38.08 VND (+36.7%). Swarm tăng chi phí lên 49.57 VND (+77.9%) và bị sụt giảm pass rate xuống 0.986, pass^5 xuống 0.929 (variance = 0.000816 do seed 55 bị ảo giác).
+- Run id / file report: `R-workflow-C-001-s11` (trial trong `src/reports/benchmark.json`; chạy riêng bằng `python -m lab8.run --shape workflow --claim-id C-001 --seed 11 --db data/research_card_C001.sqlite` từ `src/`, kết quả `resolved`, refund 35.000 VND, một audit). Run id này minh họa một trial; số liệu so sánh lấy từ toàn bộ report 280 trial. Dùng DB mới khi chạy lại lệnh riêng.
+- Kết quả so với hypothesis (đúng / sai / không kết luận được), kèm số liệu: Phù hợp với dự đoán trên public: Workflow pass rate 1.000, pass^5 1.000, variance 0.000000 và 27.86 VND/success; Orchestrator 38.08 (+36.7%); Swarm 49.57 (+77.9%), pass rate 0.986, pass^5 0.929, variance 0.000816 (sai C-002 ở seed 55). Không thể tách riêng ảnh hưởng topology khỏi cách dùng tool/model bằng phép so sánh này.
 - Giới hạn: MockLLM không phải model sản xuất, latency là `unavailable`.
 
 Muốn đi xa hơn một ablation để lấy điểm cộng thì xem [docs/bonus_topics.md](../../docs/bonus_topics.md).
+
+## Sources
+
+[1] https://arxiv.org/abs/2512.08296v3 — Towards a Science of Scaling Agent Systems (v3)
