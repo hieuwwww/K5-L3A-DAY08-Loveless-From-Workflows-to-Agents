@@ -13,7 +13,7 @@
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Bùi Quang Hiếu | 2A202603639 | 26ai.hieubq@vinuni.edu.vn | https://github.com/hieuwwww | Workflow + integration |
 |   2 | Trần Tuấn Đăng | 2A202603618 | 26ai.dangtt@vinuni.edu.vn | https://github.com/TunDangg | Single |
-|   3 |        |      |       |        | Orchestrator + handoff |
+|   3 |Nguyẽn Đức Trọng|2A202603644|25ai.trongnd@vinuni.edu.vn|https://github.com/fishiousrend05| Orchestrator + handoff |
 |   4 |        |      |       |        | Ledger + evaluation |
 
 Gợi ý chia vai:
