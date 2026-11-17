@@ -2,10 +2,10 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm:
+- Tên nhóm:Loveless
 - Lớp: L3A
-- Repo nhóm: `K5-L3A-DAY08-TenNhom-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt:
+- Repo nhóm: `K5-L3A-DAY08-Loveless-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
+- URL repo, nhánh nộp, commit chốt:https://github.com/hieuwwww/K5-L3A-DAY08-Loveless-From-Workflows-to-Agents
 
 ## Thành viên
 
@@ -13,8 +13,8 @@
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Bùi Quang Hiếu | 2A202603639 | 26ai.hieubq@vinuni.edu.vn | https://github.com/hieuwwww | Workflow + integration |
 |   2 | Trần Tuấn Đăng | 2A202603618 | 26ai.dangtt@vinuni.edu.vn | https://github.com/TunDangg | Single |
-|   3 |Nguyẽn Đức Trọng|2A202603644|25ai.trongnd@vinuni.edu.vn|https://github.com/fishiousrend05| Orchestrator + handoff |
-|   4 |        |      |       |        | Ledger + evaluation |
+|   3 | Nguyễn Đức Trọng | 2A202603644 | 25ai.trongnd@vinuni.edu.vn | https://github.com/fishiousrend05 | Orchestrator + handoff |
+|   4 | Phạm Quỳnh Anh | 2A202603671 | 26ai.anhpq3@vinuni.edu.vn | https://github.com/phamquynhanh-17 | Ledger + evaluation |
 
 Gợi ý chia vai:
 
@@ -40,8 +40,8 @@ Không sửa `src/lab8/durability.py`, `src/lab8/policy.py` hay các file thư�
 | --- | --- | --- | --- |
 | Bùi Quang Hiếu | Workflow + integration | `6b1faff` | `src/tests/test_workflow_integration.py` |
 | Trần Tuấn Đăng | Single | `98fa598` | `src/tests/test_single_shape.py` |
-| | Orchestrator + handoff | | |
-| | Ledger + evaluation | | |
+| Nguyễn Đức Trọng | Orchestrator + handoff | `998a79b` | `src/tests/test_handoff_secret.py` |
+| Phạm Quỳnh Anh | Ledger + evaluation | `c68eab8` | `src/tests/test_ledger_evaluation.py` |
 
 ## Cá nhân
 
@@ -74,16 +74,56 @@ Sao chép mục dưới đây cho từng thành viên.
 
 - Test: `python -m pytest -q tests/test_single_shape.py` (14/14 passed) và `python -m pytest -q -m student -o addopts= -k "single and not workflow and not orchestrator and not swarm"` (62/62 passed).
 
-## MSSV_HoTen
+## 2A202603671_PhamQuynhAnh
 
 ### Phần việc phụ trách
 
--
+- Ledger, Durability, Crash Safety & Benchmark Evaluation.
 
 ### Đóng góp cụ thể
 
--
+- Thêm bộ test `src/tests/test_ledger_evaluation.py`: kiểm thử tính idempotent trên khóa `refund:{claim_id}`, chống thanh toán trùng lặp, phát hiện xung đột số tiền (amount conflict) và duy trì trần hoàn tiền đơn hàng.
+- Kiểm thử cơ chế phục hồi sau sự cố sập nguồn (Crash safety), đảm bảo giao dịch duy trì đúng một effect trong ledger và một committed audit event.
+- Thực thi Crash Test Suite 20 kịch bản đạt chuẩn an toàn 20/20 (`src/reports/crash.json`).
+- Thực thi Benchmark toàn diện trên 4 kiến trúc và 5 seed (`src/reports/benchmark.json`), trích xuất số liệu phân tích và hoàn thiện ADR (`decision_adr.md`) và Research Card (`research_card.md`).
+- Commit kỹ thuật: `c68eab8` (`feat(eval): add ledger evaluation tests, benchmark and crash reports`).
 
 ### Bằng chứng
 
--
+- Test: `python -m pytest -q tests/test_ledger_evaluation.py` (5 passed).
+- Crash safety: `python -m lab8.crash_test --count 20 --out reports/crash.json` (20/20).
+- Benchmark: `src/reports/benchmark.json` (Workflow đạt pass rate 1.0, cost 27.86 VND).
+
+## 2A202603639_BuiQuangHieu
+
+### Phần việc phụ trách
+
+- Workflow + integration: triển khai Shape A (`src/lab8/shapes/workflow.py`) và kiểm tra tích hợp với host và bộ test public.
+
+### Đóng góp cụ thể
+
+- Triển khai `src/lab8/shapes/workflow.py`: đọc claim/order có scope, tính quote từ dữ liệu order bằng `compute_compensation`, truyền quote đầy đủ qua cổng host `durability.issue_refund`, trả `RunResult` và trace trên mọi nhánh.
+- Thêm `src/tests/test_workflow_integration.py` để kiểm tra claim không tồn tại, trần hoàn tiền theo đơn và trace không lộ dữ liệu nhạy cảm.
+- Commit kỹ thuật: `6b1faff` (`feat: implement workflow claim handling and integration tests`).
+
+### Bằng chứng
+
+- Test: `python -m pytest -q tests/test_workflow_integration.py` và `python -m pytest -q -m student -o addopts= -k workflow` (62/62 passed).
+- Benchmark: `src/reports/benchmark.json` (Workflow đạt pass rate 1.000, pass^5 1.000, variance 0.000000, cost/success 27.86 VND).
+
+## 2A202603644_NguyenDucTrong
+
+### Phần việc phụ trách
+
+- Orchestrator + handoff: triển khai Shape C (`src/lab8/shapes/orchestrator.py`), handoff qua allowlist, investigator chỉ đọc và trace đã lọc dữ liệu.
+
+### Đóng góp cụ thể
+
+- Triển khai `src/lab8/shapes/orchestrator.py`: đọc claim view, dựng gói handoff an toàn bằng `make_handoff` chỉ cấp tool đọc (`lookup_order`), thực thi investigator qua `run_readonly_investigators`.
+- Tính quote từ order view bằng `compute_compensation`, truyền quote đầy đủ và `crash_at` vào `durability.issue_refund`, flush trace trước khi re-raise `InjectedCrash`.
+- Commit kỹ thuật: `998a79b` (`feat: orchestrator`).
+
+### Bằng chứng
+
+- Test: `python -m pytest -q -m student -o addopts= -k orchestrator` (62/62 passed) và `python -m pytest -q tests/test_handoff_secret.py`.
+- Benchmark: `src/reports/benchmark.json` (Orchestrator đạt pass rate 1.000, pass^5 1.000, variance 0.000000, cost/success 38.08 VND).
